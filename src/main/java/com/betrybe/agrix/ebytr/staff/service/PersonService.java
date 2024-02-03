@@ -3,6 +3,7 @@ package com.betrybe.agrix.ebytr.staff.service;
 import com.betrybe.agrix.ebytr.staff.entity.Person;
 import com.betrybe.agrix.ebytr.staff.exception.PersonNotFoundException;
 import com.betrybe.agrix.ebytr.staff.repository.PersonRepository;
+import com.betrybe.agrix.exception.PersonExistsException;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,10 @@ public class PersonService {
    * Creates a new person.
    */
   public Person create(Person person) {
+    Optional<Person> existingPerson = personRepository.findByUsername(person.getUsername());
+    if (existingPerson.isPresent()) {
+      throw new PersonExistsException();
+    }
     return personRepository.save(person);
   }
 }

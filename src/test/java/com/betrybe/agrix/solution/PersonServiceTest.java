@@ -1,5 +1,6 @@
 package com.betrybe.agrix.solution;
 
+import com.betrybe.agrix.AgrixApplication;
 import com.betrybe.agrix.ebytr.staff.entity.Person;
 import com.betrybe.agrix.ebytr.staff.security.Role;
 import com.betrybe.agrix.ebytr.staff.service.PersonService;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
+@SpringBootTest(classes = AgrixApplication.class)
 @ActiveProfiles("test")
 @TestInstance(Lifecycle.PER_CLASS)
 public class PersonServiceTest {
