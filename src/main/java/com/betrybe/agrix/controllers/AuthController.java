@@ -36,12 +36,12 @@ public class AuthController {
    */
   @PostMapping("/login")
   public ResponseEntity<AuthResponseDto> login(@RequestBody AuthRequestDto authRequestDto) {
-    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+    UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(
         authRequestDto.username(),
         authRequestDto.password()
     );
 
-    Authentication authentication = authenticationManager.authenticate(authToken);
+    Authentication authentication = authenticationManager.authenticate(usernamePassword);
     UserDetails person = (UserDetails) authentication.getPrincipal();
     String token = securityTokenService.createToken(person);
 
