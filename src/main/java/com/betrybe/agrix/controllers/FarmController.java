@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,10 +43,10 @@ public class FarmController {
    * @return the all farms
    */
   @GetMapping
+  @Secured({"ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER"})
   public ResponseEntity<List<FarmDto>> getAllFarms() {
     List<Farm> allFarms = farmService.getAllFarms();
-    List<FarmDto> allFarmsDto = allFarms.stream()
-        .map(farm -> FarmDto.toDto(farm)).toList();
+    List<FarmDto> allFarmsDto = allFarms.stream().map(FarmDto::toDto).toList();
     return ResponseEntity.ok(allFarmsDto);
   }
 
@@ -72,7 +73,7 @@ public class FarmController {
   public ResponseEntity<List<CropDto>> getCropsByFarmId(@PathVariable Long farmId) {
     List<Crop> crops = farmService.getCropsByFarmId(farmId);
     List<CropDto> cropsDto = crops.stream()
-        .map(crop -> CropDto.toDto(crop))
+        .map(CropDto::toDto)
         .toList();
     return ResponseEntity.ok(cropsDto);
   }

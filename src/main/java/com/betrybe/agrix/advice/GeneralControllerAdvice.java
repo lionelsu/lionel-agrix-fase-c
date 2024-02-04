@@ -5,6 +5,7 @@ import com.betrybe.agrix.exception.CropNotFoundException;
 import com.betrybe.agrix.exception.FarmNotFoundException;
 import com.betrybe.agrix.exception.FertilizerNotFoundException;
 import com.betrybe.agrix.exception.PersonExistsException;
+import java.nio.file.AccessDeniedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -50,11 +51,16 @@ public class GeneralControllerAdvice {
 
   @ExceptionHandler(PersonNotFoundException.class)
   public ResponseEntity<String> handlePersonNotFoundException(PersonNotFoundException e) {
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pessoa não encontrada!");
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Pessoa não encontrada!");
   }
 
   @ExceptionHandler(PersonExistsException.class)
   public ResponseEntity<String>  handlePersonExistsException(PersonExistsException e) {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Pessoa já existente no banco!");
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException e) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado!");
   }
 }
